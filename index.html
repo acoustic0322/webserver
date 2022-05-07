@@ -1,0 +1,24 @@
+<html>
+  <head></head>
+  <body>
+    <input type="text" id="cmdtext" /><button type="button" id="cmdbutton">submit</button>
+    <script>
+      const host = location.origin.replace(/^http(s?)/, "ws$1");
+      const ws = new WebSocket(host);
+      ws.onopen = function (e) {
+        console.log("connected: " + host);
+      };
+      ws.onclose = (e) => {
+        console.log("terminated");
+      };
+      ws.onmessage = (e) => {
+        console.log("received:" + host + " : " + e.data);
+      };
+      document.getElementById("cmdbutton").addEventListener("click", (e) => {
+        const text = document.getElementById("cmdtext").value;
+        if (text) ws.send(text);
+        console.log("ws.send");
+      });
+    </script>
+  </body>
+</html>
